@@ -47,6 +47,26 @@ app.get("/statment/", verifyIfExistAccountCPF, (request, response) => {
     return response.json(costumer.statement)
 })
 
+app.post("/deposit", verifyIfExistAccountCPF , (request, response) => {
+    const {description, amount} = request.body;
+
+    const { costumer } = request;
+
+    const statmentOperation = {
+        amount,
+        description,
+        createAt: new Date(),
+        type: "credit"
+    }
+    
+    costumer.statement.push(statmentOperation);
+
+    return response.status(201).send();
+})
+
+
 
 //porta do serviço
-app.listen(3333);
+app.listen(process.env.PORT || 3333, ()=>{
+    console.log('server is running',process.env.PORT)
+});
