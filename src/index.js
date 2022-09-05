@@ -137,6 +137,15 @@ app.delete("/account" ,(request, response) => {
     return response.status(200).send(costumers)
 })
 
+app.get("balance", (request, response)=>{
+    const {costumer} = request;
+    
+    const balance = getBalance(costumer.statement);
+    
+    return response.json(balance) 
+    
+})
+
 //porta do serviço
 app.listen(process.env.PORT || 3333, ()=>{
     console.log('server is running',process.env.PORT)
