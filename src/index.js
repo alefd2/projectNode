@@ -1,3 +1,4 @@
+const { request } = require('express');
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 
@@ -120,7 +121,7 @@ app.get("/statment/data", verifyIfExistAccountCPF, (request, response) => {
     return response.json(costumer.statement)
 })
 
-app.put("account", verifyIfExistAccountCPF, (request, response)=> {
+app.put("/account", verifyIfExistAccountCPF, (request, response)=> {
     const { costumer } = request;
     const { name } = request.body;
 
@@ -129,6 +130,12 @@ app.put("account", verifyIfExistAccountCPF, (request, response)=> {
     return response.status(201).send()
 })
 
+app.delete("/account" ,(request, response) => {
+    const { costumer } = request;
+    costumers.splice(costumer, 1);
+
+    return response.status(200).send(costumers)
+})
 
 //porta do serviço
 app.listen(process.env.PORT || 3333, ()=>{
