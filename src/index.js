@@ -104,6 +104,30 @@ app.post("/withdraw" , verifyIfExistAccountCPF, (request, response) => {
 
 })
 
+app.get("/statment/data", verifyIfExistAccountCPF, (request, response) => {
+    const{ costumer } = request;
+    const {date} = request.query;
+
+    const dateFormat = new Date(date + " 00:00");
+    //retornar só o extrato do dia 
+    const statement = costumer.statement.filter(
+
+        (statement) => statement.createAt.toDateString() 
+        === new Date(dateFormat).toDateString 
+        
+    )
+
+    return response.json(costumer.statement)
+})
+
+app.put("account", verifyIfExistAccountCPF, (request, response)=> {
+    const { costumer } = request;
+    const { name } = request.body;
+
+    costumer.name = name;
+
+    return response.status(201).send()
+})
 
 
 //porta do serviço
